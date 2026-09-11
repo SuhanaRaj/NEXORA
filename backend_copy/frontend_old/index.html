@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DRONE RESCUE AI COMMAND CENTER</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div>
+    <div class="eyebrow">SMART INDIA HACKATHON • AUTONOMOUS DISASTER RESPONSE</div>
+    <h1>DRONE RESCUE <span>AI COMMAND CENTER</span></h1>
+    <p>Live surveillance • survivor prioritization • location intelligence • fail-safe awareness</p>
+  </div>
+  <div id="systemStatus" class="status-pill">SYSTEM STARTING</div>
+</header>
+
+<main class="shell">
+  <section class="mode-row">
+    <button class="mode active" data-mode="flood">FLOOD AI</button>
+    <button class="mode" data-mode="earthquake">EARTHQUAKE AI</button>
+    <button class="mode" data-mode="landslide">LANDSLIDE AI</button>
+    <div class="engine">
+      <span>ACTIVE DECISION ENGINE</span>
+      <strong id="engineName">FLOOD RESCUE AI</strong>
+    </div>
+  </section>
+
+  <section class="priority-card">
+    <div>
+      <div class="label">AI PRIORITY</div>
+      <div id="priority" class="priority high">STANDBY</div>
+      <div id="priorityLabel">Waiting for survivor observations</div>
+    </div>
+    <div class="score-wrap">
+      <div class="label">EMERGENCY SCORE</div>
+      <div id="score" class="score">0</div>
+      <div class="meter"><span id="scoreMeter"></span></div>
+    </div>
+    <button id="warningBtn" class="action">BROADCAST WARNING</button>
+  </section>
+
+  <section id="failSafe" class="failsafe">
+    <div>
+      <div class="label">FAIL-SAFE / RETURN HOME</div>
+      <strong id="failsafeText">WAITING FOR POSITION</strong>
+      <p id="failsafeReason">Home coordinate will be the first valid phone/drone GPS position.</p>
+    </div>
+    <div class="home">
+      <div class="label">HOME / LAUNCH COORDINATE</div>
+      <strong id="homeCoord">—</strong>
+    </div>
+    <button id="rthBtn" class="danger">SIMULATE RETURN HOME</button>
+  </section>
+
+  <section class="grid">
+    <div class="panel map-panel">
+      <div class="panel-head">
+        <div>
+          <div class="label">NAVIGATION / LOCATION INTELLIGENCE</div>
+          <h2>Live Disaster Map</h2>
+          <p id="mapSub">Waiting for live position</p>
+        </div>
+        <div class="map-tools">
+          <button data-layer="street">STREET</button>
+          <button data-layer="topo">TOPO</button>
+          <button data-layer="imagery">SATELLITE</button>
+          <button id="recenter">RECENTER</button>
+        </div>
+      </div>
+      <div id="map"></div>
+      <div class="map-footer">
+        <span>● DRONE / PHONE</span><span>● HOME</span><span>— FLIGHT TRAIL</span><span>● AI PRIORITY ZONE</span>
+        <span id="gpsSource">GPS: —</span>
+      </div>
+    </div>
+
+    <div class="panel vision-panel">
+      <div class="panel-head">
+        <div>
+          <div class="label">FPV / MOBILE CAMERA</div>
+          <h2>Live AI Vision</h2>
+          <p>YOLO26 person detection + BoT-SORT tracking</p>
+        </div>
+        <div id="camStatus" class="live">OFFLINE</div>
+      </div>
+      <div class="video-wrap">
+        <img id="video" src="/video_feed" alt="AI camera feed">
+        <div class="overlay">
+          <span id="visionMode">LIVE • YOLO26</span>
+          <span id="visionPeople">PEOPLE 0</span>
+        </div>
+      </div>
+      <div class="people-grid">
+        <div class="metric big"><span>CURRENT PEOPLE</span><strong id="currentPeople">0</strong><small>visible in the current frame</small></div>
+        <div class="metric big"><span>TOTAL UNIQUE PEOPLE</span><strong id="uniquePeople">0</strong><small>unique track IDs this session</small></div>
+      </div>
+      <div class="telemetry-mini">
+        <span>AI FPS <b id="aiFps">0</b></span>
+        <span>CAPTURE FPS <b id="capFps">0</b></span>
+        <span>DEVICE <b id="device">—</b></span>
+        <button id="resetTracking">RESET UNIQUE TRACKS</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid lower">
+    <div class="panel">
+      <div class="panel-head"><div><div class="label">PHONE / CAMERA CONNECTION</div><h2>Connect Mobile Drone</h2></div></div>
+      <div class="connect">
+        <input id="cameraUrl" placeholder="http://PHONE-IP:8080/video">
+        <button id="connectCamera">CONNECT</button>
+      </div>
+      <p class="hint">Use IP Webcam Pro. The backend automatically attempts to read the phone GPS from its sensors API. Keep phone and laptop on the same Wi-Fi/hotspot.</p>
+      <div class="phone-gps">
+        <span>PHONE GPS</span><b id="phoneGps">NOT CONNECTED</b>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><div><div class="label">LIVE TELEMETRY</div><h2>Position & Flight State</h2></div></div>
+      <div class="telemetry-grid">
+        <div class="metric"><span>LATITUDE</span><strong id="lat">—</strong></div>
+        <div class="metric"><span>LONGITUDE</span><strong id="lon">—</strong></div>
+        <div class="metric"><span>ALTITUDE</span><strong id="alt">—</strong></div>
+        <div class="metric"><span>SPEED</span><strong id="speed">—</strong></div>
+        <div class="metric"><span>BATTERY</span><strong id="battery">—</strong></div>
+        <div class="metric"><span>GPS AGE</span><strong id="gpsAge">—</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel guidance">
+    <div class="panel-head"><div><div class="label">DISASTER-SPECIFIC AUTONOMOUS POLICY</div><h2 id="guidanceTitle">Flood Rescue AI</h2></div></div>
+    <div id="guidanceCards" class="guidance-grid"></div>
+    <p class="disclaimer">Prototype decision-support logic for SIH demonstration. Certified flight safety, RTL/RTH and navigation must remain onboard the real flight controller; internet/laptop connectivity must never be the aircraft safety dependency.</p>
+  </section>
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
