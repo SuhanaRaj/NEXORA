@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 /**
  * NEXORA - Cinematic 3D Drone Launch Sequence (Clean Plain Background & Zero Flashes)
- * 
+ *
  * - Phase 1: Minimalist intro screen showing "NEXORA"
  * - Phase 2: Ultra slow-motion 3D drone flight gliding from the distance into a steady hover
  * - Phase 3: Seamless transition navigating to '/dashboard'
@@ -86,8 +86,8 @@ export default function NexoraDroneIntro({ dashboardPath = '/landing' } = {}) {
   }, []);
 
   return (
-    <div 
-      className={`nx-root ${stage !== 'INTRO' ? 'is-drone-active' : ''}`} 
+    <div
+      className={`nx-root ${stage !== 'INTRO' ? 'is-drone-active' : ''}`}
       id="nexora-root"
       onClick={() => {
         // Clicking anywhere on the screen during the drone simulation immediately moves to dashboard
@@ -311,8 +311,8 @@ export default function NexoraDroneIntro({ dashboardPath = '/landing' } = {}) {
       {/* =========================================================================
           PHASE 1: STARTING SCREEN ("NEXORA")
           ========================================================================= */}
-      <div 
-        className={`nx-intro-view ${stage !== 'INTRO' ? 'hide' : ''}`} 
+      <div
+        className={`nx-intro-view ${stage !== 'INTRO' ? 'hide' : ''}`}
         id="nexora-intro-screen"
         onClick={(e) => {
           if (stage === 'INTRO') {
@@ -325,7 +325,7 @@ export default function NexoraDroneIntro({ dashboardPath = '/landing' } = {}) {
         <h1 className="nx-title">NEXORA</h1>
         <div className="nx-subtitle">AUTONOMOUS AERIAL RECONNAISSANCE</div>
 
-        <button 
+        <button
           className="nx-launch-btn"
           id="nexora-launch-btn"
           onClick={(e) => {
@@ -344,7 +344,7 @@ export default function NexoraDroneIntro({ dashboardPath = '/landing' } = {}) {
           PHASE 2: 3D DRONE FLY-IN (Smooth slow-motion arrival)
           ========================================================================= */}
       <div className="nx-drone-stage" id="nexora-drone-stage">
-        <div 
+        <div
           className={`nx-drone-actor ${
             stage === 'INTRO'
               ? 'state-intro'
@@ -362,10 +362,10 @@ export default function NexoraDroneIntro({ dashboardPath = '/landing' } = {}) {
           title="Click to move to dashboard"
         >
           {/* HIGH-PRECISION 3D-STYLE RESCUE QUADCOPTER DRONE SVG */}
-          <svg 
-            viewBox="0 0 800 560" 
-            width="100%" 
-            height="100%" 
+          <svg
+            viewBox="0 0 800 560"
+            width="100%"
+            height="100%"
             style={{ overflow: 'visible', filter: 'drop-shadow(0 20px 45px rgba(0, 0, 0, 0.8))' }}
           >
             <defs>
@@ -465,11 +465,11 @@ export default function NexoraDroneIntro({ dashboardPath = '/landing' } = {}) {
             </g>
 
             {/* CENTRAL FUSELAGE / CHASSIS */}
-            <polygon 
-              points="400,200 495,255 485,355 400,395 315,355 305,255" 
-              fill="url(#nxCarbon)" 
-              stroke="#00f0ff" 
-              strokeWidth="2.5" 
+            <polygon
+              points="400,200 495,255 485,355 400,395 315,355 305,255"
+              fill="url(#nxCarbon)"
+              stroke="#00f0ff"
+              strokeWidth="2.5"
             />
             <polygon points="400,200 435,255 425,375 400,395" fill="#1f293d" opacity="0.95" />
             <polygon points="400,200 365,255 375,375 400,395" fill="#111827" opacity="0.95" />
