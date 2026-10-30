@@ -1,0 +1,9 @@
+fastapi==0.116.1
+uvicorn[standard]==0.35.0
+opencv-python==4.12.0.88
+numpy==2.2.6
+ultralytics==8.4.138
+requests==2.32.5
+python-multipart==0.0.20
+lap==0.5.13
+cryptography==46.0.4
